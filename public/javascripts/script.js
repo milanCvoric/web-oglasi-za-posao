@@ -42,7 +42,7 @@
     var body =  $("#poruka").val();
     var subject = $("#naslov").val();
     var ime = $("#ime").val() + '/n';
-    window.open(`mailto:nikolavlad63@gmail.com?subject=${subject}&ime=${ime}&body=${body}`);
+    window.open(`mailto:milancvoric98@gmail.com?subject=${subject}&ime=${ime}&body=${body}`);
   }
 
 
