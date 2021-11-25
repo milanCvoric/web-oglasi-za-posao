@@ -1,3 +1,8 @@
+Vazna obavestenja :
+  - Dokumentacija projekta nalazi se u fajlu : "dokumentacija.docx".
+  - Fajl "wop.sql" predstavlja SQL upit za kreiranje baze podataka potrbnu za ovaj projekat. 
+
+
 1) O projektu :
  
   - Projekat "Web Oglasi Za Posao" predstavlja web aplikaciju namenjenu za pronalaženje posla i postavljanje oglasa za posao. Aplikacija je kompleksnije arhitekture, zato je ceo kod razložen na manje celine, a sam način organizovanja koda je po uzorku MVC. 
@@ -9,9 +14,9 @@
   2.1) Pre samog pokretanja potrebno je skinuti i instalirani sledeće programe : git, nodejs i xampp.  Potom je potrebno kopirati link github repozitorijuma, pozicionirati se na željenoj lokaciji i pomoću git alata naredbom git clone klonorati repozitorijum aplikacije na svom lokalnom računaru. 
   2.2) Sada kad imamo aplikaciju na lokalnom računaru, potrebno je instaliranje svih node modula koji su potrebne za pokretanje iste, čiji se nazivi nalaze u fajlu package.json.   To radimo na sledeći način : pomoću cmd-a (ili powershell-a) se pozicioniramo u root folder aplikacije i pozivom komande npm install instaliramo sve potrebne module.
   2.3) Zatim je potrebno da  startujemo MySql I Apache servere, pomoću XAMPP alata.
-  2.4) U root folderu aplikacije nalazi se fajl, koji predstavlja bazu podataka sa nazivom wop.sql. Potrebno je kreirati bazu sa nazivom wop u mySql serveru, a zatim pomenuti fajl import-ovati na mysql server u novokreiranoj bazi (preporučeni online alat za ove akcije je phpMyAdmin : http://localhost/phpmyadmin/index.php).
+  2.4) U root folderu aplikacije nalazi se fajl, koji predstavlja bazu podataka sa nazivom" wop.sql". Potrebno je kreirati bazu sa nazivom wop u mySql serveru, a zatim pomenuti fajl import-ovati na mysql server u novokreiranoj bazi (preporučeni online alat za ove akcije je phpMyAdmin : http://localhost/phpmyadmin/index.php).
   2.5) Potom je potrebno otvoriti fajl na putanji relativna u odnosu na root folder : /config/db.js – koji predstavlja konekciju sa bazom I ako je potrebno izmeniti parametre, kako bi konektovanje bilo uspešno. 
-  2.6) Po izvršenju prethodno opisanih koraka, aplikacija se može pokrenuti pozicioniranjen u root foldera i izvršenje komande : npm start .
+  2.6) Po izvršenju prethodno opisanih koraka, aplikacija se može pokrenuti pozicioniranjen u root foldera i izvršenje komande : npm start 
 
 
 
