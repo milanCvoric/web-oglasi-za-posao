@@ -1,0 +1,364 @@
+
+<!--Title-->
+<title> <%- title %></title>
+
+
+<body>
+  
+  
+    <!--Navigacija-->
+    <div class="navigation fixed-top">
+        <div class="container-fluid" >
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+               
+                <!--Logo-->
+                <div>
+                    <a href = '/'>
+                       <img class="navbar-brand logoSlika" src = '/images/site/WOPlogo.svg'></img>
+                    </a>
+                </div>
+                
+                         
+
+
+              
+
+                <!--Ostali deo menia-->
+                <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                    <!--Pretrazivac-->
+                    <form class="form-inline" action ='/svi_poslovi' method='GET'>
+                        <input class="form-control  mr-sm-5" style="background-color: rgba(28, 26, 61, 0.123); color: aliceblue; width: 20rem;" type="search" placeholder="Pratraži poslove" aria-label="Search" name='kljucneReci'>
+                    </form>    
+                    <!-- /Pretrazivac--> 
+
+                  <div class="navbar-nav ml-auto">
+                      
+                    <a class="nav-item nav-link" href="/">Početna</a>
+                    <a class="nav-item nav-link " href="/o_nama">O nama</a>
+                    <a class="nav-item nav-link " href="/kontakt">Kontakt</a>
+                    <!--  Deo koji gost vidi  -->
+                    <% if(!ulogovaniKorisnik) { %>
+                    <a class="nav-item nav-link" href="/logIn">Prijavi se</a>
+                    <a class="nav-item nav-link" href="/registracija" style="color : rgb(0, 153, 255)">Registruj se</a>
+                    <!-- /Deo koji gost vidi -->
+                    <%}%>
+                  </div>
+                </div> 
+                <!--/Ostali deo menija-->
+
+                <% if (ulogovaniKorisnik) {%>
+                <!--Deo koji gost ne vidi-->
+                    <!--Dropdown avatara-->
+                    <div class="dropdown show">
+                    
+                        <img class="avatar" 
+
+                            <% if (ulogovaniKorisnik.slika != '') { %>
+                                src = '/images/uploads/korisnici/<%-ulogovaniKorisnik.slika%>' 
+                            <% } else { %>
+                                src = '/images/site/noPhoto.jpg' 
+                            <% } %>
+
+                            href="#" role="button" id="dropdownMenuLink" 
+                            data-toggle="dropdown" aria-haspopup="true" 
+                            aria-expanded="false">
+                        </img>
+
+
+
+                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-black" href="/svi_korisnici/profil/<%-ulogovaniKorisnik.id%>">Moj profil</a>
+                            
+                            <% if (ulogovaniKorisnik.rola == 'admin') {%>
+                                <a class="dropdown-item text-black" href="/svi_korisnici">Vidi sve profile</a>
+                            <% } %>
+                            <a class="dropdown-item text-danger" href="/logOut">Odjavi se</a>
+                            
+                          </div>
+                    </div>
+                    <!-- /Dropdown avatar-->
+                <!-- /Deo koji gost ne vidi-->    
+                <% } %>
+                
+                <!-- Button response -->
+
+                <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                 <!-- /Button response -->
+                   
+                
+                
+              </nav>
+            <!--/Navbar--> 
+            
+        </div>
+        <!--/Container-->
+        <!-- Razdvajanje menija od sadrzaja-->
+    </div>
+    <!--/Navigacija------------------------------------------------------------------------------------------------------------------>
+
+
+    <!-- Pretrazivanje, sortiranje i dodavanje-->
+    <div class="container mb-1">
+        <div class="row">
+
+           
+            <div class = 'col-lg-5 col-sm-5 mt-3 mb-3'>
+
+            <!-- Forma za pretrazivanje -->
+                <form action ='/sve_kategorije' method = 'GET' 
+                class="form-inline form-sm";">
+                    
+                    <input class="form-control form-control-sm mr-3 w-75" type="search" placeholder="Pretraži kategorije"
+                    aria-label="Search" style="background-color: #23395d00; color: aliceblue; " 
+                    name = 'pretrazi' 
+                    value='<%-pretrazi%>'>
+                    <input name = 'sortiraj' value='<%-sortiraj%>' hidden />
+                    <input name = 'strana' value = '<%-strana%>' hidden />
+                   
+
+
+                    <button type="submit" style=" padding: 0;
+                    border: none;
+                    background: none;">
+                        <i class="fas fa-search" aria-hidden="true" style=" color:rgb(255, 255, 255)"></i>
+                    </button>
+                </form>
+            <!-- /Forma za pretrazivanje -->
+            </div>
+
+            <!-- Sortiranje A-Z -->
+            <div class="col-lg-4 col-sm-3 mt-3 mb-3 text-center">
+                <form action="/sve_kategorije" method="get" class="form-inline">
+                    <input name = 'pretrazi' value = '<%-pretrazi%>' hidden>
+                    <input name = 'strana'   value = '<%-strana%>' hidden>
+                    <input name = 'sortiraj' 
+                        value = <% if(sortiraj == 'asc'){ %> 'desc' 
+                        <%} else if(sortiraj == 'desc'){%> 'asc' <%}%>
+                         hidden />
+                    
+
+
+                   <button type="submit" class="btn btn-secondary btn-sm ">
+
+                       Sortiranje: 
+                       <% if(sortiraj == 'asc'){ %>   <b>A/Z</b>
+                       <%} else if(sortiraj == 'desc'){%>  <b>Z/A </b><%}%> 
+                    
+                       
+                    </button>
+
+                </form>
+            </div>
+            <!-- /Sortiranje A-Z -->
+
+            <% if(ulogovaniKorisnik) {%>
+                <% if(ulogovaniKorisnik.rola == 'admin') {%>
+                <!-- Link za dodavanje kategorije-->
+                <div class = 'col-lg-3 col-sm-3 mt-3 mb-3`'>
+                    <a href = '/sve_kategorije/nova_kategorija' style=" color :rgb(255, 255, 255);">
+                        <i class="fas fa-plus mr-1 text-success"></i>
+                        Dodaj novu kategoriju
+                    </a>
+                </div>
+                <!-- /Link za dodavanje kategorije -->
+                <%}%>
+            <%}%>
+        </div>
+    </div>
+    <!-- /Pretrazivanje i dodavanje-->
+
+
+
+
+    <hr class = 'container col-9 ' style=" background-color: dimgray;">
+
+
+
+    
+
+
+    <div class="container text-center"><h2>Sve kategorije</h2></div>
+    <div class="container">Ukupno kategorija : <b> <%-ukupnoKategorija%></b></div>
+    <!-- Izlistavanje kategorije -->
+    <div class="container mt-4 ">
+
+        <!-- Red -->
+        <div class="row">
+            <% for(kategorija of kategorije) {%>
+            <!-- Kolona -->
+            <div class="col-lg-4 col-sm-6 mt-1 mb-3 justify-content-center d-flex">
+                <!-- Kartica za kategoriju-->
+                <div class="card" style="width: 20rem; background-color: rgba(51, 51, 51, 0.562); box-shadow: none; border: 1px solid rgba(233, 0, 0, 0.068);">
+                    <!-- Slika kategorije -->
+                    <img class="card-img-top " src="/images/site/category.jpg" alt="Card image cap">
+                    <!-- Sadrzaj kartice-->
+                    <div class="card-body">
+                        <!-- Naziv kategorije-->
+                            <a href = '/sve_kategorije/kategorija/<%-kategorija.id%>'class="text-center"><p class="text-warning"><%-kategorija.naziv%></p></a>
+
+                        <%if(ulogovaniKorisnik && ulogovaniKorisnik.rola == 'admin'){%>
+                        <!-- Akcije nad kategorijom-->
+                        <div  class = 'justify-content-center d-flex'>                        
+                            <!-- Izmeni #Admin-->
+                            <a href ="/sve_kategorije/kategorija/<%-kategorija.id%>/izmena_kategorije"
+                             class ='mr-4 btn btn-outline-info br'><i class="fas fa-edit"></i></a>
+                            <!-- Obrisi #Admin-->
+                            <form class="form form-inline" method="POST" action="/sve_kategorije/kategorija/<%-kategorija.id%>/brisanje_kategorije">
+
+                                <button type = 'button' class="btn btn-outline-danger " data-toggle="modal" data-target="#modalBrisanjeKategorije<%-kategorija.id%>"><i class="fas fa-trash " style='color:tomato';></i></button>
+
+                                    <!-- Modal za brisanje -->
+                                        <div class="modal fade text-center" id="modalBrisanjeKategorije<%-kategorija.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                
+                                            <div class="modal-content bg-dark">
+                                                <div class="modal-header">
+                            
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Brisanje kategorije</h5>
+                                                
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true" class="text-danger">&times;</span>
+                                                </button>
+                                                
+                                                </div>
+                                                <!-- Pitanje -->
+                                                <div class="modal-body">
+                                                    Da li ste sigurni da želite da obrišete kategoriju :<br> 
+                                                    <span class="text-warning"><%-kategorija.naziv%></span> 
+                                                </div>
+                                                <!-- /Pitanje -->
+
+
+                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                                    <!-- Potvrda -->
+                                                    <button type="submit" class="btn btn-primary">Potvrdi</button>
+                                                    <!-- Potvrda -->
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    <!-- /Modal za brisanje -->
+
+
+
+                            
+                            </form>
+                        </div>
+                        <!-- Akcije nad kategorijom-->
+                        <%}%>
+
+                    </div>
+                    <!-- /Sadrzaj kartice-->
+                </div>
+                <!-- /Kartica za kateforiju-->
+            </div>
+            <!--/Kolona-->
+            <% }%>
+
+        </div>
+        <!-- /Red-->
+
+
+
+    </div>
+    <!-- /Izlistavanje kartice-->
+                    
+    <!-- Slucaj kad nema nikakvih podataka za prikaz -->
+       <% if (prikazaneKategorije == 0) {%>
+        <div class = 'container'>
+            <h3 class="text-center text-secondary">Trenutno nema aktivnih kategorija za prikazivanje!</h3>
+        </div> 
+        <%}%>
+
+    <!-- /Slucaj kad nema nikakvih podataka za prikaz -->
+
+
+
+
+
+     <!-- Paginacija -->
+     <nav>
+        <!-- Telo paginacije-->
+        <ul class="pagination justify-content-center mt-5    ">
+
+            <!-- Prethodna -->
+            <%if (strana > 1) {%>
+            <form action="/sve_kategorije" method="GET" >
+               
+                <button class="btn text-white bg-dark" name = 'strana' value= <%-prethodnaStrana%> >Prethodna</button> 
+               
+
+
+                  <!-- Filteri -->
+                  <input name = 'pretrazi' value = '<%-pretrazi%>'  hidden />  
+                  <input name = 'sortiraj' value = '<%-sortiraj%>'  hidden /> 
+                  <!-- /Filteri -->
+                
+            </form>
+            <%}%>
+            <!-- Prethodna -->
+
+            <!-- Trenutna -->
+            <li class="page-item active "><a class="btn page-link text-warning bg-dark" href="#"><%-strana%></a></li>
+            <!-- Trenutna -->
+
+            <% if (prikazaneKategorije >= 9 ) {%>
+            <!-- Sledeća -->
+            <form action="/sve_kategorije" method="GET" >
+                <button class="btn text-white bg-dark" name = 'strana' value= <%-sledecaStrana%> >Sledeća&nbsp;&nbsp;&nbsp;&nbsp;</button> 
+                <!-- Filteri -->
+                <input name = 'pretrazi' value = '<%-pretrazi%>'  hidden />  
+                <input name = 'sortiraj' value = '<%-sortiraj%>'  hidden /> 
+                 <!-- /Filteri -->               
+            </form>
+            <!-- /Sledeća -->
+           <%}%>
+        </ul>
+        <!-- /Telo paginacije-->
+    </nav>
+    <!-- /Paginacija -->
+
+
+
+
+    
+
+    
+
+
+
+
+
+        
+
+       
+       
+      <!-- Footer -->
+      <div class="container-fluid fixed-bottom small footer " style=" margin: 1px; padding: 10px; border-top: rgb(117, 117, 117) 2px solid;">
+        <!-- Linija -->
+      
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-4 text-">
+                Milan Cvoric
+            </div>
+            <div class="col-lg-4 col-sm-4 text">
+                Web oglasi za posao - 2021 <sup>&copy</sup> 
+            </div>
+            
+            <div class="col-lg-4 col-sm-4">
+                <a><i class="fab fa-instagram ml-3" style="color:blueviolet"></i></a>
+                <a><i class="fab fa-facebook ml-3"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+
+
+</body>

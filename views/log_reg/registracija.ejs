@@ -1,0 +1,150 @@
+
+<!--Title-->
+<title> <%- title %></title>
+
+
+<body>
+
+
+        
+    <!--Navigacija-->
+    <div class="navigation fixed-top">
+        <div class="container-fluid" >
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+            
+                <!--Logo-->
+                <div>
+                    <a href = '/'>
+                    <img class="navbar-brand logoSlika" src = '/images/site/WOPlogo.svg'></img>
+                    </a>
+                </div>
+                
+                        
+
+
+            
+
+                <!--Ostali deo menia-->
+                <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                    <!--Pretrazivac-->
+                    <form class="form-inline" action ='/svi_poslovi' method='GET'>
+                        <input class="form-control  mr-sm-5" style="background-color: rgba(28, 26, 61, 0.123); color: aliceblue; width: 20rem;" type="search" placeholder="Pratraži poslove" aria-label="Search" name='kljucneReci'>
+                    </form>    
+                    <!-- /Pretrazivac--> 
+
+                <div class="navbar-nav ml-auto">
+                    
+                    <a class="nav-item nav-link" href="/">Početna</a>
+                    <a class="nav-item nav-link " href="/o_nama">O nama</a>
+                    <a class="nav-item nav-link " href="/kontakt">Kontakt</a>
+                    <!--  Deo koji gost vidi  -->
+                   
+                    <a class="nav-item nav-link " href="/logIn">Prijavi se</a>
+                    <a class="nav-item nav-link active" href="/registracija" style="color : rgb(0, 153, 255)">Registruj se</a>
+                    <!-- /Deo koji gost vidi -->
+                   
+                </div>
+                </div> 
+                <!--/Ostali deo menija-->
+
+               
+                
+                <!-- Button response -->
+
+                <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- /Button response -->
+                
+                
+                
+            </nav>
+            <!--/Navbar--> 
+            
+        </div>
+        <!--/Container-->
+        <!-- Razdvajanje menija od sadrzaja-->
+    </div>
+    <!--/Navigacija------------------------------------------------------------------------------------------------------------------>
+
+
+    <!-- Naslov -->
+    <div class="container mt-4 mb-4 text-center">
+        <h1 style="border-radius: 30px; box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.274);">Registracija</h1>
+    </div>
+
+    <!-- Telo za kreiranje novog korisnika-->
+    <div class="container center " >
+        <!-- Forma -->
+        <form action='/registracija' method ='POST'  style="display: flex; justify-content: center;">
+            <!-- Red -->
+           <div class="form-group col-sm-6" >
+                
+               <!-- Ime -->
+                   <label>*Ime</label>
+                   <input type="text" class="form-control center-style" name = 'ime' required <%if (greska != ''){%> value = '<%-greska.ime%>'<%}%>> 
+                <!-- /Ime -->
+
+               <!-- Prezime -->
+                    <label>*Prezime</label>
+                    <input type="text" class="form-control center-style" name = 'prezime' required <%if (greska != ''){%> value = '<%-greska.ime%>'<%}%>>
+                <!-- Prezime-->
+
+                <!-- Email -->
+                    <label>*Email</label>
+                    <input type="email" class="form-control center-style" name = 'email' required <%if (greska != ''){%> value = '<%-greska.email%>' autofocus<%}%>
+                <!-- /Email -->
+
+                    <!-- Email greska -->
+                        <%if (greska != ''){%> <spam class="text-danger small">Ovaj email već postoji!</spam> <br><%}%>
+                    <!-- Email greska -->
+
+
+                <!-- Lozinka -->
+                    <label>*Lozinka</label>
+                    <input type="password" class="form-control center-style" name = 'lozinka' required>
+                <!-- /Lozinka -->
+                
+
+                <!-- Submit -->
+                    <button type="submit" class = 'btn btn-info text-light  mb-3 mt-3' style="width: 100%;" ><b>Sledeće > </b></button>
+                <!-- /Submit -->
+
+
+                <br>
+                <!-- Log in-->
+                <span class="h6 justify-content-center d-flex">Već imate nalog -<a href = '/login'>&nbsp; ulogujte se.</a></span>
+                <!-- /Log in-->
+
+        </form>
+    </div>
+
+
+
+
+
+       
+      <!-- Footer -->
+      <div class="container-fluid fixed-bottom small footer " style=" margin: 1px; padding: 10px; border-top: rgb(117, 117, 117) 2px solid;">
+        <!-- Linija -->
+      
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-4 text-">
+               Milan Cvoric
+            </div>
+            <div class="col-lg-4 col-sm-4 text">
+                Web oglasi za posao - 2021 <sup>&copy</sup> 
+            </div>
+            
+            <div class="col-lg-4 col-sm-4">
+                <a href=""><i class="fab fa-instagram ml-3" style="color:blueviolet"></i></a>
+                <a href=""><i class="fab fa-facebook ml-3"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+    
+</body>

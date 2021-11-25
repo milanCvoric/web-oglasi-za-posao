@@ -1,0 +1,364 @@
+
+<!--Title-->
+<title> <%- title %></title>
+
+
+<body style="margin-top: 67px;">
+  
+
+     <!-- Uspesno prijavljivanje -->
+     <% if (obavestenje == true) {%>
+        <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+            $('#myModal').modal('show');
+        }, 1); // milliseconds
+            });
+
+         </script>
+    <%}%>
+
+           <!-- /Modal za uspesno prijavljivanje-->
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <span class="text-success">Uspešno ste se registrovali. Dobro došli na sajtu <b>Web oglasi za posao.</b></span> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- /Modal za uspesno prijavljivanje-->
+
+
+
+
+    <!--Navigacija-->
+    <div class="navigation fixed-top">
+        <div class="container-fluid" >
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+               
+                <!--Logo-->
+                <div>
+                    <a href = '/'>
+                       <img class="navbar-brand logoSlika" src = '/images/site/WOPlogo.svg'></img>
+                    </a>
+                </div>
+                
+                         
+
+
+              
+
+                <!--Ostali deo menia-->
+                <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                    <!--Pretrazivac-->
+                    <form class="form-inline" action ='/svi_poslovi' method='GET'>
+                        <input class="form-control  mr-sm-5" style="background-color: rgba(28, 26, 61, 0.123); color: aliceblue; width: 20rem;" type="search" placeholder="Pratraži poslove" aria-label="Search" name='kljucneReci'>
+                    </form>    
+                    <!-- /Pretrazivac--> 
+
+                  <div class="navbar-nav ml-auto">
+                      
+                    <a class="nav-item nav-link active" href="/">Početna</a>
+                    <a class="nav-item nav-link " href="/o_nama">O nama</a>
+                    <a class="nav-item nav-link " href="/kontakt">Kontakt</a>
+                    <!--  Deo koji gost vidi  -->
+                    <% if(!ulogovaniKorisnik) { %>
+                    <a class="nav-item nav-link" href="/logIn">Prijavi se</a>
+                    <a class="nav-item nav-link" href="/registracija" style="color : rgb(0, 153, 255)">Registruj se</a>
+                    <!-- /Deo koji gost vidi -->
+                    <%}%>
+                  </div>
+                </div> 
+                <!--/Ostali deo menija-->
+
+                <% if (ulogovaniKorisnik) {%>
+                <!--Deo koji gost ne vidi-->
+                    <!--Dropdown avatara-->
+                    <div class="dropdown show">
+                    
+                        <img class="avatar" 
+
+                            <% if (ulogovaniKorisnik.slika != '') { %>
+                                src = '/images/uploads/korisnici/<%-ulogovaniKorisnik.slika%>' 
+                            <% } else { %>
+                                src = '/images/site/noPhoto.jpg' 
+                            <% } %>
+
+                            href="#" role="button" id="dropdownMenuLink" 
+                            data-toggle="dropdown" aria-haspopup="true" 
+                            aria-expanded="false">
+                        </img>
+
+
+
+                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-black" href="/svi_korisnici/profil/<%-ulogovaniKorisnik.id%>">Moj profil</a>
+                            
+                            <% if (ulogovaniKorisnik.rola == 'admin') {%>
+                                <a class="dropdown-item text-black" href="/svi_korisnici">Vidi sve profile</a>
+                            <% } %>
+                            <a class="dropdown-item text-danger" href="/logOut">Odjavi se</a>
+                            
+                          </div>
+                    </div>
+                    <!-- /Dropdown avatar-->
+                <!-- /Deo koji gost ne vidi-->    
+                <% } %>
+                
+                <!-- Button response -->
+
+                <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                 <!-- /Button response -->
+                   
+                
+                
+              </nav>
+            <!--/Navbar--> 
+            
+        </div>
+        <!--/Container-->
+        <!-- Razdvajanje menija od sadrzaja-->
+    </div>
+    <!--/Navigacija------------------------------------------------------------------------------------------------------------------>
+
+
+    <!-- Kategorije -->
+    <div class='kategorije ' style="border-top: 1px solid rgb(255, 208, 0); ">
+        <div class= 'container ' >
+            <div class = 'row'>
+
+                <!-- @Izlistavanej kategorija-->
+                <% for (kategorija of kategorije){ %>
+                    <div class="col-3 ">
+                        <a href = '/sve_kategorije/kategorija/<%- kategorija.id %>'>
+                           <!-- Naziv kategorije -->
+                           <%- kategorija.naziv%>
+                        </a>
+                    </div>
+                <% } %>
+                <!-- /@Izlistavanje kategorija-->
+
+               
+
+                <div class="col-3">
+                    <a href = '/sve_kategorije'>
+                        Vidi sve kategorije...   
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Kategorije -->
+
+    <!-- Header -->
+    <div class="header-img">
+        <div class="header-bg">
+            <div class="container h-100 d-flex align-items-center ">
+                <div class="container text-center senka p-5">
+                    
+                    <!-- Naslov -->
+                   
+                       <div class="h1 "> <>Web oglasi za posao <&#47></div> 
+                   
+                    <!-- /Naslov -->
+                    <!-- Tekst o sajtu-->
+                  
+                    <i style="color: rgba(255, 255, 255, 0.541);">
+                        "Pronađi posao koji voliš i nećeš morati da radiš ni dana u životu!"
+                    </i>
+                    <!-- /Tekst-->
+                    
+               
+
+                    <br><br>
+                    <!-- Buttons -->
+                    <div class="col-12">
+                        <section>
+                            <a href = '/svi_poslovi/novi_posao' class="btn btn-lg text-light" style="background-color: green;" >
+                                Postavi oglas
+                            </a>
+                            <a href = '/svi_poslovi' class="btn btn-lg text-light" style="background-color: teal;">
+                                Pronađi posao
+                            </a>
+                        </section>
+                    </div>
+                    <!-- /Buttons-->
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--/Header-->
+
+ 
+
+
+    <!--Aktuelni poslovi-->
+            <!-- Naslov -->
+            <div class="col-xs-1 text-center  mb-3 mt-3" >
+                <h5>Aktuelni poslovi</h5>
+            </div>
+            <!-- /Naslov -->
+
+            <!-- Sadrzaj -->
+            <div class="container mt-4 ">
+
+                <!-- Red sa poslovima-->
+                <div class="row m-4">
+
+                    <!-- @Izlistavanje 3 najaktuelnija posla poslova -->
+                      
+                    <% if (poslovi[1]) {%>
+                        <!-- Posao mesto 2-->
+                        <div class="col-lg-4 col-sm-12 mb-3 mt-5 justify-content-center d-flex" 
+                        style="cursor: pointer;" 
+                        onclick="window.location.href = '/svi_poslovi/posao/<%-poslovi[1].id%>'"
+                        >
+                            <div class="card bg-dark  " style="width: 23rem; min-height: 8rem;">
+                                <div class="card-body">
+                                    <h6 class="card-title" style="color: rgb(0, 152, 169);">
+                                        <i class="far fa-file-code" style="font-size: 20px; color: rgb(255, 230, 0);"></i>
+                                        <%-poslovi[1].naziv%>
+                                    </h6>
+                                    <hr style="background-color: rgb(0, 0, 0);">
+                                <h6 class="card-subtitle mb-2 text-muted small">
+                                    
+                                    Br prijava : <span class="text-warning"><%-poslovi[1].br_prijava%></span>
+                                
+                                </h6>
+                                <p class="card-text">
+                                    <%-poslovi[1].kratak_opis%>...   </p>
+                                
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Posao mesto 2-->
+                    <% } %>
+
+                    <% if (poslovi[0]) {%>
+                         <!-- Posao mesto 1-->
+                         <div class="col-lg-4 col-sm-12 mb-3 mt-3 justify-content-center d-flex" 
+                         style="cursor: pointer;" 
+                         onclick="window.location.href = '/svi_poslovi/posao/<%-poslovi[0].id%>'"
+                         >
+                             <div class="card bg-dark" style=" width: 23rem; min-height: 8rem;">
+                                 <div class="card-body">
+                                     <h6 class="card-title" style="color: rgb(0, 152, 169);">
+                                         <i class="far fa-file-code" style="font-size: 20px; color: rgb(255, 230, 0);"></i>
+                                         <%-poslovi[0].naziv%>
+                                     </h6>
+                                     <hr style="background-color: rgb(0, 0, 0);">
+                                   <h6 class="card-subtitle mb-2 text-muted small">
+                                      
+                                       Br prijava : <span class="text-warning"><%-poslovi[0].br_prijava%></span>
+                                 
+                                   </h6>
+                                   <p class="card-text">
+                                       <%-poslovi[0].kratak_opis%>...   </p>
+                                   
+                                  
+                                 
+                                 </div>
+                               </div>
+                         </div>
+                         <!-- Posao mesto 1-->
+                    <% } %>
+
+                    <% if (poslovi[2]) {%>
+                           <!-- Posao mesto 3-->
+                           <div class="col-lg-4 col-sm-12 mb-3 mt-5 justify-content-center d-flex" 
+                           style="cursor: pointer;" 
+                           onclick="window.location.href = '/svi_poslovi/posao/<%-poslovi[2].id%>'"
+                           >
+                               <div class="card bg-dark " style=" width: 23rem; min-height: 13rem;  ">
+                                   <div class="card-body">
+                                       <h6 class="card-title" style="color: rgb(0, 152, 169);">
+                                           <i class="far fa-file-code" style="font-size: 20px; color: rgb(255, 230, 0);"></i>
+                                           <%-poslovi[2].naziv%>
+                                       </h6>
+                                       <hr style="background-color: rgb(0, 0, 0);">
+                                     <h6 class="card-subtitle mb-2 text-muted small">
+                                        
+                                         Br prijava : <span class="text-warning"><%-poslovi[2].br_prijava%></span>
+                                   
+                                     </h6>
+                                     <p class="card-text">
+                                         <%-poslovi[2].kratak_opis%>...   </p>
+                                     
+                                    
+                                   
+                                   </div>
+                                 </div>
+                           </div>
+                           <!-- Posao mesto 3-->
+                    <% } %>
+                    
+                    <!-- /@Izlistavanje poslova-->    
+                 
+                    
+                 
+                    
+                </div>
+            <!-- /Red sa poslovima-->
+            </div>
+            <!-- /Sadrzaj-->
+    <!-- / Aktuelni poslovi-->
+
+    <% if( poslovi.length > 0) {%>
+    <!-- Svi Poslovi-->
+            <div class="col-xs-1 text-center mb-5" >
+                <h5>Ne dopada ti se nijedan aktuelan posao, pogledaj <a href = '/svi_poslovi' ><u>sve poslove na sajtu.</u></a></h5>
+            </div>
+    <!-- /Svi Poslovi-->
+    <%} else {%>
+        <h1 class="text-center text-secondary">Trenutno nema nijedan aktuelan posao za prikazivanje!</h1>
+    <%}%>
+
+    
+   
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <div class="container-fluid fixed-bottom small footer " style=" margin: 1px; padding: 10px; border-top: rgb(117, 117, 117) 2px solid;">
+        <!-- Linija -->
+      
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-4 text-">
+               Milan Cvoric
+            </div>
+            <div class="col-lg-4 col-sm-4 text">
+                Web oglasi za posao - 2021 <sup>&copy</sup> 
+            </div>
+            
+            <div class="col-lg-4 col-sm-4">
+                <a href=""><i class="fab fa-instagram ml-3" style="color:blueviolet"></i></a>
+                <a href=""><i class="fab fa-facebook ml-3"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+
+</body>

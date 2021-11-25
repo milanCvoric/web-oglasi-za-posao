@@ -1,0 +1,176 @@
+
+<!--Title-->
+<title> <%- title %></title>
+
+
+<body>
+  
+   
+    <!--Navigacija-->
+    <div class="navigation fixed-top">
+        <div class="container-fluid" >
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+               
+                <!--Logo-->
+                <div>
+                    <a href = '/'>
+                       <img class="navbar-brand logoSlika" src = '/images/site/WOPlogo.svg'></img>
+                    </a>
+                </div>
+                
+                         
+
+
+              
+
+                <!--Ostali deo menia-->
+                <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                    <!--Pretrazivac-->
+                    <form class="form-inline" action ='/svi_poslovi' method='GET'>
+                        <input class="form-control  mr-sm-5" style="background-color: rgba(28, 26, 61, 0.123); color: aliceblue; width: 20rem;" type="search" placeholder="Pratraži poslove" aria-label="Search" name='kljucneReci'>
+                    </form>    
+                    <!-- /Pretrazivac--> 
+
+                  <div class="navbar-nav ml-auto">
+                      
+                    <a class="nav-item nav-link active" href="/">Početna</a>
+                    <a class="nav-item nav-link " href="/o_nama">O nama</a>
+                    <a class="nav-item nav-link " href="/kontakt">Kontakt</a>
+                    <!--  Deo koji gost vidi  -->
+                    <% if(!ulogovaniKorisnik) { %>
+                    <a class="nav-item nav-link" href="/logIn">Prijavi se</a>
+                    <a class="nav-item nav-link" href="/registracija" style="color : rgb(0, 153, 255)">Registruj se</a>
+                    <!-- /Deo koji gost vidi -->
+                    <%}%>
+                  </div>
+                </div> 
+                <!--/Ostali deo menija-->
+
+                <% if (ulogovaniKorisnik) {%>
+                <!--Deo koji gost ne vidi-->
+                    <!--Dropdown avatara-->
+                    <div class="dropdown show">
+                    
+                        <img class="avatar" 
+
+                            <% if (ulogovaniKorisnik.slika != '') { %>
+                                src = '/images/uploads/korisnici/<%-ulogovaniKorisnik.slika%>' 
+                            <% } else { %>
+                                src = '/images/site/noPhoto.jpg' 
+                            <% } %>
+
+                            href="#" role="button" id="dropdownMenuLink" 
+                            data-toggle="dropdown" aria-haspopup="true" 
+                            aria-expanded="false">
+                        </img>
+
+
+
+                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-black" href="/svi_korisnici/profil/<%-ulogovaniKorisnik.id%>">Moj profil</a>
+                            
+                            <% if (ulogovaniKorisnik.rola == 'admin') {%>
+                                <a class="dropdown-item text-black" href="/svi_korisnici">Vidi sve profile</a>
+                            <% } %>
+                            <a class="dropdown-item text-danger" href="/logOut">Odjavi se</a>
+                            
+                          </div>
+                    </div>
+                    <!-- /Dropdown avatar-->
+                <!-- /Deo koji gost ne vidi-->    
+                <% } %>
+                
+                <!-- Button response -->
+
+                <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                 <!-- /Button response -->
+                   
+                
+                
+              </nav>
+            <!--/Navbar--> 
+            
+        </div>
+        <!--/Container-->
+        <!-- Razdvajanje menija od sadrzaja-->
+    </div>
+    <!--/Navigacija------------------------------------------------------------------------------------------------------------------>
+
+
+
+    
+    <!-- Forma za izmenu  kategorije-->
+    <!-- Naslov -->
+    <h1 style="text-align: center;">Izmena kategorije</h1>
+     <!-- /Naslov -->
+    
+        <!-- Unos podataka -->
+        <div class ='container center'>
+            <!-- Forma -->
+            <form action='/sve_kategorije/kategorija/<%-kategorija[0].id%>/izmena_kategorije' method= 'POST'>
+                <!-- Telo forme-->
+                <div class="form-group ">
+                  
+
+                    <!-- Ostali deo forme-->
+                    <label>Naziv kategorije :</label>
+                    <input type="text" name = 'naziv' class='form-control center-style' value = '<%-kategorija[0].naziv%>' >
+                    <!-- GRESKA : Naziv kategorije vec postoji-->
+                    <% if(greska != '') {%>
+                        <p class="small text-danger"><%-greska%></p>
+                    <%}%>
+                    
+
+
+                    <lavel>Kratak opis :</lavel><br>
+                    <textarea name = 'kratakOpis' class="form-control center-style" ><%-kategorija[0].kratak_opis%></textarea>
+                    <!-- /Ostali deo forme-->
+                    <br>
+                    <!-- Submit dugme -->
+                    <button type="submit" class="btn btn-success" >
+                        Izmeni kategoriju
+                    </button>
+                    
+
+                    <!-- Odustani -->
+                    <a type="button" href = '/sve_kategorije/kategorija/<%-kategorija[0].id%>' class="btn btn-danger">Odustani</a>
+                    
+
+
+                </div>
+                <!-- /Telo forme-->
+            </form>
+            <!-- /Forma-->
+        </div>
+        <!-- /Unos podataka -->
+
+        
+    
+
+      
+      <!-- Footer -->
+      <div class="container-fluid fixed-bottom small footer " style=" margin: 1px; padding: 10px; border-top: rgb(117, 117, 117) 2px solid;">
+        <!-- Linija -->
+      
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-4 text-">
+                Milan Cvoric
+            </div>
+            <div class="col-lg-4 col-sm-4 text">
+                Web oglasi za posao - 2021 <sup>&copy</sup> 
+            </div>
+            
+            <div class="col-lg-4 col-sm-4">
+                <a><i class="fab fa-instagram ml-3" style="color:blueviolet"></i></a>
+                <a><i class="fab fa-facebook ml-3"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+
+</body>

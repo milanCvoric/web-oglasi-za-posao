@@ -1,0 +1,228 @@
+
+<!--Title-->
+<title> <%- title %></title>
+
+
+<body>
+  
+    <!--Navigacija-->
+    <div class="navigation fixed-top">
+        <div class="container-fluid" >
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+               
+                <!--Logo-->
+                <div>
+                    <a href = '/'>
+                       <img class="navbar-brand logoSlika" src = '/images/site/WOPlogo.svg'></img>
+                    </a>
+                </div>
+                
+                         
+
+
+              
+
+                <!--Ostali deo menia-->
+                <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                    <!--Pretrazivac-->
+                    <form class="form-inline" action ='/svi_poslovi' method='GET'>
+                        <input class="form-control  mr-sm-5" style="background-color: rgba(28, 26, 61, 0.123); color: aliceblue; width: 20rem;" type="search" placeholder="Pratraži poslove" aria-label="Search" name='kljucneReci'>
+                    </form>    
+                    <!-- /Pretrazivac--> 
+
+                  <div class="navbar-nav ml-auto">
+                      
+                    <a class="nav-item nav-link active" href="/">Početna</a>
+                    <a class="nav-item nav-link " href="/o_nama">O nama</a>
+                    <a class="nav-item nav-link " href="/kontakt">Kontakt</a>
+                    <!--  Deo koji gost vidi  -->
+                    <% if(!ulogovaniKorisnik) { %>
+                    <a class="nav-item nav-link" href="/logIn">Prijavi se</a>
+                    <a class="nav-item nav-link" href="/registracija" style="color : rgb(0, 153, 255)">Registruj se</a>
+                    <!-- /Deo koji gost vidi -->
+                    <%}%>
+                  </div>
+                </div> 
+                <!--/Ostali deo menija-->
+
+                <% if (ulogovaniKorisnik) {%>
+                <!--Deo koji gost ne vidi-->
+                    <!--Dropdown avatara-->
+                    <div class="dropdown show">
+                    
+                        <img class="avatar" 
+
+                            <% if (ulogovaniKorisnik.slika != '') { %>
+                                src = '/images/uploads/korisnici/<%-ulogovaniKorisnik.slika%>' 
+                            <% } else { %>
+                                src = '/images/site/noPhoto.jpg' 
+                            <% } %>
+
+                            href="#" role="button" id="dropdownMenuLink" 
+                            data-toggle="dropdown" aria-haspopup="true" 
+                            aria-expanded="false">
+                        </img>
+
+
+
+                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-black" href="/svi_korisnici/profil/<%-ulogovaniKorisnik.id%>">Moj profil</a>
+                            
+                            <% if (ulogovaniKorisnik.rola == 'admin') {%>
+                                <a class="dropdown-item text-black" href="/svi_korisnici">Vidi sve profile</a>
+                            <% } %>
+                            <a class="dropdown-item text-danger" href="/logOut">Odjavi se</a>
+                            
+                          </div>
+                    </div>
+                    <!-- /Dropdown avatar-->
+                <!-- /Deo koji gost ne vidi-->    
+                <% } %>
+                
+                <!-- Button response -->
+
+                <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                 <!-- /Button response -->
+                   
+                
+                
+              </nav>
+            <!--/Navbar--> 
+            
+        </div>
+        <!--/Container-->
+        <!-- Razdvajanje menija od sadrzaja-->
+    </div>
+    <!--/Navigacij
+
+    <!-- Forma za kreiranje nove kategorije-->
+    <!-- Naslov -->
+    <h1 style="text-align: center;">Novi oglas </h1>
+    <!-- /Naslov -->
+
+    <!-- Unos podataka -->
+    <div class="container center">
+     <!-- Forma -->
+        <form action="/svi_poslovi/novi_posao" method= 'POST'>
+            <!-- Telo forme-->
+            <div class="form-group ">
+                <!-- Kategorija-->
+                <label>*Kategorija : </label><br>
+                <select class = 'form-control center-style bg-dark'  name = 'kategorijaId' required >
+                
+                    <% for(kategorija of sveKategorije) {%>
+                    <option value = '<%-kategorija.id%>' <%if( kategorijaId == kategorija.id){%> selected <%}%> >
+                        <%-kategorija.naziv%>
+                    </option>
+                    <%}%>
+                </select>
+                <!-- Naziv oglasa-->
+                <label>*Naziv oglasa : </label>
+                <input type="text" class="form-control center-style" 
+                name = 'naziv' required maxlength="100" 
+                <%if (greska != '') {%> value =  '<%-greska.naziv%>' <%}%>
+                >
+                <!-- Labela koja oznacava gresku-->
+                <%if(greska != ''){%>
+                    <p class="small text-danger"><%-greska.ime%></p>
+                <%}%>
+
+                <!-- Kratak opis-->
+                <label>*Kratak opis : </label><br>
+                <textarea maxlength="" class = 'form-control center-style' style = 'height : 150px' 
+                name = 'kratakOpis' 
+                required maxlength="150"><%if (greska != ''){%><%-greska.kratakOpis%><%}%></textarea>
+                <!-- Pun opis -->
+                <label>*Pun opis posla : </label>
+                <textarea class="form-control center-style" style="height: 250px;" 
+                name = 'punOpis' required><%if(greska!=''){%><%-greska.punOpis%><%}%></textarea>
+                <!-- Potrebne veštine -->
+                <label>*Potrebne veštine, koje kandidat mora da poznaje : </label><br>
+                <textarea maxlength="" class="form-control center-style" 
+                name = 'potrebneVestine' required><%if (greska != ''){%><%-greska.potrebneVestine%><%}%></textarea><br>
+                <!-- Poželjne veštine -->
+                <label>Poželjne veštine : </label><br>
+                <textarea maxlength="" class="form-control center-style" 
+                name = 'pozeljneVestine'><%if (greska != ''){%><%-greska.pozeljneVestine%><%}%></textarea><br>
+
+
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-success">Dodaj oglas</button>
+                <!-- Odustani -->
+                <button type="button"  data-toggle="modal" data-target="#odustaniPosao" class="btn btn-danger">Odustani</button>
+
+                    <!-- Modal za odustajanje -->
+                    <div class="modal fade text-center" id="odustaniPosao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header">
+        
+                            <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                            
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="text-danger">&times;</span>
+                            </button>
+                            
+                            </div>
+                            <!-- Pitanje -->
+                            <div class="modal-body">
+                                Da li ste sigurni da želite da odustanete?<br> 
+                            </div>
+                            <!-- /Pitanje -->
+
+
+        
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Odbij</button>
+                                <!-- Potvrda -->
+                                <button type="submit" class="btn btn-danger" onclick="window.history.go(-1);">Potvrdi</button>
+                                <!-- Potvrda -->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                <!-- /Modal za odustajane -->
+
+
+
+
+
+
+
+
+            </div>
+        </form>
+    </div>
+
+
+       
+  
+       
+      <!-- Footer -->
+      <div class="container-fluid fixed-bottom small footer " style=" margin: 1px; padding: 10px; border-top: rgb(117, 117, 117) 2px solid;">
+        <!-- Linija -->
+      
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-4 text-">
+               Milan Cvoric
+            </div>
+            <div class="col-lg-4 col-sm-4 text">
+                Web oglasi za posao - 2021 <sup>&copy</sup> 
+            </div>
+            
+            <div class="col-lg-4 col-sm-4">
+                <a href=""><i class="fab fa-instagram ml-3" style="color:blueviolet"></i></a>
+                <a href=""><i class="fab fa-facebook ml-3"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+    
+</body>

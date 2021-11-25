@@ -1,0 +1,470 @@
+
+<!--Title-->
+<title> <%- title %></title>
+
+
+<body>
+
+    <!--Navigacija-->
+    <div class="navigation fixed-top">
+        <div class="container-fluid" >
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+               
+                <!--Logo-->
+                <div>
+                    <a href = '/'>
+                       <img class="navbar-brand logoSlika" src = '/images/site/WOPlogo.svg'></img>
+                    </a>
+                </div>
+                
+                         
+
+
+              
+
+                <!--Ostali deo menia-->
+                <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                    <!--Pretrazivac-->
+                    <form class="form-inline" action ='/svi_poslovi' method='GET'>
+                        <input class="form-control  mr-sm-5" style="background-color: rgba(28, 26, 61, 0.123); color: aliceblue; width: 20rem;" type="search" placeholder="Pratraži poslove" aria-label="Search" name='kljucneReci'>
+                    </form>    
+                    <!-- /Pretrazivac--> 
+
+                  <div class="navbar-nav ml-auto">
+                      
+                    <a class="nav-item nav-link" href="/">Početna</a>
+                    <a class="nav-item nav-link " href="/o_nama">O nama</a>
+                    <a class="nav-item nav-link " href="/kontakt">Kontakt</a>
+                    <!--  Deo koji gost vidi  -->
+                    <% if(!ulogovaniKorisnik) { %>
+                    <a class="nav-item nav-link" href="/logIn">Prijavi se</a>
+                    <a class="nav-item nav-link" href="/registracija" style="color : rgb(0, 153, 255)">Registruj se</a>
+                    <!-- /Deo koji gost vidi -->
+                    <%}%>
+                  </div>
+                </div> 
+                <!--/Ostali deo menija-->
+
+                <% if (ulogovaniKorisnik) {%>
+                <!--Deo koji gost ne vidi-->
+                    <!--Dropdown avatara-->
+                    <div class="dropdown show">
+                    
+                        <img class="avatar" 
+
+                            <% if (ulogovaniKorisnik.slika != '') { %>
+                                src = '/images/uploads/korisnici/<%-ulogovaniKorisnik.slika%>' 
+                            <% } else { %>
+                                src = '/images/site/noPhoto.jpg' 
+                            <% } %>
+
+                            href="#" role="button" id="dropdownMenuLink" 
+                            data-toggle="dropdown" aria-haspopup="true" 
+                            aria-expanded="false">
+                        </img>
+
+
+
+                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-black" href="/svi_korisnici/profil/<%-ulogovaniKorisnik.id%>">Moj profil</a>
+                            
+                            <% if (ulogovaniKorisnik.rola == 'admin') {%>
+                                <a class="dropdown-item text-black" href="/svi_korisnici">Vidi sve profile</a>
+                            <% } %>
+                            <a class="dropdown-item text-danger" href="/logOut">Odjavi se</a>
+                            
+                          </div>
+                    </div>
+                    <!-- /Dropdown avatar-->
+                <!-- /Deo koji gost ne vidi-->    
+                <% } %>
+                
+                <!-- Button response -->
+
+                <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                 <!-- /Button response -->
+                   
+                
+                
+              </nav>
+            <!--/Navbar--> 
+            
+        </div>
+        <!--/Container-->
+        <!-- Razdvajanje menija od sadrzaja-->
+    </div>
+    <!--/Navigacija-->
+
+    
+   
+
+    <!-- Prikaz podataka o korisniku (profilu)-->
+    <div class="container-fluid   mt-5  " style="padding-left: 20px; padding-top: 10px; border-radius: 30px; background-color: rgba(0, 0, 36, 0.226);">
+        
+        <!-- Red -->
+        <div class="row" style="padding: 10px;">
+           
+            <!-- Kolona sa podacima korisnika-->
+            <div class="col-lg-6 col-sm-12 mb-5 text-wrap">
+
+                <!-- Naslov --> <span>Podaci o korisniku</span> 
+                
+                <!-- /Naslov-->
+                <hr style="background-color:rgba(255, 255, 255, 0.13); margin-top: 30px;">
+
+                <!-- Slika korisnika-->
+                <div class="justify-content-center d-flex p-3" style="background-color: rgba(250, 235, 215, 0.034);">
+                    <img  alt="Slika_korisnika" class=" profilna rounded-circle"  style="border: 2px solid rgb(100, 100, 100);" 
+                    <% if (korisnik[0].slika != '' ) {%>
+                        src = '/images/uploads/korisnici/<%-korisnik[0].slika%>'
+                    <%} else {%>
+                        src = '/images/site/noPhoto.jpg'
+                    <% } %>
+                    />
+                    <!-- /Slika korisnika-->
+                </div>
+                <% if(ulogovaniKorisnik.id == korisnik[0].id || ulogovaniKorisnik.rola == 'admin') {%>
+                <div class="text-center">
+                    <a href = '/svi_korisnici/profil/<%-korisnik[0].id%>/slika' class="text-info">Izmenite sliku <i class="fas fa-edit"></i>    </a>
+                </div>
+                <% } %>
+                
+                <br><br>
+
+                <!-- Podaci o korisniku-->
+                <table class="table table-dark">
+                    <!-- Telo podataka-->
+                    <tbody >
+                        <!-- Ime -->
+                        <tr>
+                          <td>Ime :</td>
+                          <td class = 'text-warning'><%-korisnik[0].ime%></td>
+                        </tr>
+                        <!-- /Ime -->
+
+                        <!-- Prezime -->
+                        <tr>
+                          <td>Prezime : </td>
+                          <td class = 'text-warning'> <%-korisnik[0].prezime %></td>
+                        </tr>
+                        <!-- /Prezime -->
+
+                        <!-- Email-->
+                        <tr>
+                          <td>Email : </td>
+                          <td class = 'text-warning'><%-korisnik[0].email%></td>
+                        </tr>
+                        <!-- /Email-->
+                      </tbody>
+                      <!-- /Telo podataka-->
+                </table>
+                <!-- /Pocai o korisniku-->
+                <hr>
+
+
+                
+            <!-- Akcije koje može da vidi samo vlasnik profila i admin -->
+            <% if(ulogovaniKorisnik.id == korisnik[0].id || ulogovaniKorisnik.rola == 'admin') {%>
+                <!-- Akcije nad korisnikom-->
+                <div>
+                <!-- Izmena profila -->
+                   <a href ='/svi_korisnici/profil/<%-korisnik[0].id%>/izmena_profila' class='btn btn-outline-info text-info justify-content-center d-flex'>
+                        Izmena i brisanje profila
+                    </a>
+                <!-- /Izmena profila -->
+
+
+
+                </div>
+                <!-- /Akcije nad korisnikom-->
+            <!-- Akcije koje može da vidi samo vlasnik profila i admin -->
+            <% } %>
+            </div>
+
+
+
+            <!-- /Kolona sa podacima o korisniku-->
+
+
+            <% if(oglasiMeni == 'aktivni') {%>
+            <!-- Kolona sa postavljenim oglasima -->
+            <div class="col-lg-6 col-sm-12 mb-5  ">
+               
+                <form class = 'in-line mb-2' action="/svi_korisnici/profil/<%-korisnik[0].id%>" method="GET">
+                    <span class ='btn btn-outline-dark text-white' >Aktivni poslovi</span>
+
+                    <% if (ulogovaniKorisnik.id == korisnik[0].id || ulogovaniKorisnik.rola == 'admin' ) {%>
+                    <button type="submit"  class ='btn btn-outline-dark text-secondary' 
+                     >Prijaviljeni poslovi 
+                    </button>
+                    <% } %>
+
+
+                    <input hidden name = 'oglasiMeni' value = 'prijavljeni'>
+                </form>
+           
+
+                <!-- Naslov -->
+                
+                <!-- /Naslov-->
+                <hr style="background-color: rgba(255, 255, 255, 0.13);">
+                    <span class="small"> Ukupno : <%-ukupno%></span><br><br>
+
+            
+                    <!-- Telo sa oglasima -->
+                <% for (oglas of oglasi) { %>
+                    <div class="row">
+                        <!-- Naziv oglasa -->
+                    
+                    
+                            <div class="col-10">
+                                <a href="/svi_poslovi/posao/<%-oglas.id%>" class="text-primary"> <%-oglas.naziv %> </a>
+                            </div>
+                        
+                        <!-- /Naziv oglasa -->
+
+                    </div>
+                <hr style="background-color: rgb(146, 146, 146);">
+                 <!-- Telo sa oglasima -->
+                <% } %>
+                
+                <!-- Paginacija -->
+                        <nav>
+                            <!-- Telo paginacije-->
+                            <ul class="pagination justify-content-center mt-5    ">
+                    
+                                <% if (strana > 1) {%>
+                                <!-- Prethodna -->
+                                <form action="/svi_korisnici/profil/<%-korisnik[0].id%>" method="GET" >
+                                    
+                                    <button class="btn text-white" name = 'strana' value= <%-prethodnaStrana%> ><i class="fas fa-arrow-circle-left"></i></button> 
+                                    
+                                    <input hidden name = 'oglasiMeni' value = '<%-oglasiMeni%>'>
+
+                                </form>
+                                <% } %>
+                               
+                                <!-- Prethodna -->
+                    
+                            
+                                <!-- Trenutna -->
+                                <li class="page-item  active"><a class="btn-sm page-link text-warning bg-dark" href="#"><%-strana%></a></li>
+                                <!-- Trenutna -->
+                    
+                                <% if (prikazaniOglasi >= 8) { %>
+                                <!-- Sledeća -->
+                                <form action="/svi_korisnici/profil/<%-korisnik[0].id%>" method="GET" >
+
+                                    <button class="btn text-white  " name = 'strana' value= <%-sledecaStrana%> ><i class="fas fa-arrow-circle-right"></i></button> 
+                                    <input hidden name = 'oglasiMeni' value = '<%-oglasiMeni%>'>
+                                </form>
+                                <!-- /Sledeća -->
+                                <% } %>
+                            </ul>
+                            <!-- /Telo paginacije-->
+                        </nav>
+                <!-- Paginacija-->
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <% } %>
+            <!-- /Kolona sa postavljenim oglasima-->
+           
+
+            
+            <% if(oglasiMeni == 'prijavljeni') {%>
+            <!-- Kolona sa prijavljenim oglasima -->
+             <div class="col-lg-6 col-sm-12 mb-5 ">
+
+                <!-- Naslov  MENI -->
+                <form class = 'in-line mb-2' action="/svi_korisnici/profil/<%-korisnik[0].id%>" method="GET">
+                    <button type="submit" class ='btn btn-outline-dark text-secondary'>Aktivni poslovi</button>
+                    <span   class ='btn btn-outline-dark text-white'>Prijavljeni poslovi</span>
+                    <input hidden name = 'oglasiMeni' value = 'aktivni'>
+                </form>
+           
+                <!-- /Naslov  MENI-->
+
+                <hr style="background-color: rgba(255, 255, 255, 0.13);">
+                    <span class="small"> Ukupno : <%-ukupno%></span><br><br>
+                
+
+                <% for (oglas of oglasi) {%>
+                <!-- Telo sa oglasima -->
+                <div class="row">
+                    <!-- Naziv oglasa -->
+                    <div class="col-7">
+                        <a href = '/svi_poslovi/posao/<%-oglas.id%>'><%-oglas.naziv%></a>
+                    </div>
+                    <!-- /Naziv oglasa -->
+
+                    <!-- Akcije nad oglasima-->
+                    <div class="col-5 d-flex">
+                      
+                       
+                        <div class="col-5">
+                        <!-- Status -->
+                            <i 
+                            <% if (oglas.status == 'prihvaćen'){%> class='text-success '
+                            <%} else if(oglas.status == 'odbijen') {%> class = 'text-danger '    
+                               <% } else%> class = 'text-info '
+                            %>
+                            > 
+                            
+                            <%-oglas.status%> 
+                        
+                            </i>   
+                        <!-- /Status -->
+                        </div>
+
+                        <div class="col-6">
+                        <!-- Forma za odustajanje ako status nije prihvacen -->
+                        <% if (oglas.status != 'prihvaćen') {%>
+                            <form action = '/svi_poslovi/posao/<%-oglas.id%>/odjavljivanje_posla' method='POST' class="form-inline">  
+
+                                <button type="button" class="btn btn-outline btn-sm ml-1 text-warning" data-toggle="modal" data-target="#modalOdjaviSeZaPosao<%-oglas.id %>">
+                                    <b class="">Odustani</b>
+                                </button>
+
+                                <!-- Modal za odustajanje od posla-->
+                                    <div class="modal fade text-center" id="modalOdjaviSeZaPosao<%-oglas.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            
+                                        <div class="modal-content bg-dark">
+                                            <div class="modal-header">
+                        
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Odjavljivanje posla</h5>
+                                            
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" class="text-danger">&times;</span>
+                                            </button>
+                                            
+                                            </div>
+                                            <!-- Pitanje -->
+                                            <div class="modal-body">
+                                                Da li ste sigurni da želite povućete prijavu za posao :<br> 
+                                                <span class="text-warning"><%-oglas.naziv%></span> 
+                                            </div>
+                                            <!-- /Pitanje -->
+
+
+                        
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                                <!-- Potvrda -->
+                                                <button type="submit" class="btn btn-primary">Potvrdi</button>
+                                                <!-- Potvrda -->
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <!-- /Modal za odustajanje od posla-->
+
+                        </form>
+                           
+                        <% } %>
+                        </div>
+                       <!-- Forma za odustajanje od posla ako nije prihvacen  -->
+
+                    </div>
+                     <!-- /Akcije nad oglasima-->
+
+                </div>
+                <hr style="background-color: darkgray;">
+                <% } %>
+                <!-- /Telo sa oglasima -->
+
+        <!-- Paginacija -->
+                  <nav>
+                    <!-- Telo paginacije-->
+                    <ul class="pagination justify-content-center mt-5    ">
+            
+                        <% if (strana > 1) { %>
+                        <!-- Prethodna -->
+                        <form action="/svi_korisnici/profil/<%-korisnik[0].id%>" method="GET" >
+                            
+                            <button class="btn text-white " name = 'strana' value= <%-prethodnaStrana%> ><i class="fas fa-arrow-circle-left"></i></button> 
+                            
+                            <input hidden name = 'oglasiMeni' value = '<%-oglasiMeni%>'>
+
+                        </form>
+                        <!-- Prethodna -->
+                        <% } %>
+
+
+                     
+                        <!-- Trenutna -->
+                        <li class="page-item  active"><a class="btn-sm page-link text-warning bg-dark" href="#"><%-strana%></a></li>
+                        <!-- Trenutna -->
+            
+                        <% if (prikazaniOglasi >= 8) {%>
+                        <!-- Sledeća -->
+                        <form action="/svi_korisnici/profil/<%-korisnik[0].id%>" method="GET" >
+
+                            <button class="btn text-white " name = 'strana' value= <%-sledecaStrana%> ><i class="fas fa-arrow-circle-right"></i></button> 
+                            <input hidden name = 'oglasiMeni' value = '<%-oglasiMeni%>'>
+                        </form>
+                        <!-- /Sledeća -->
+                        <% } %>
+                    </ul>
+                    <!-- /Telo paginacije-->
+                </nav>
+        <!-- Paginacija-->
+
+
+
+
+            </div>
+            <!-- /Kolona sa prijavljenim oglasima-->
+            <%}%>
+
+            
+        </div>
+        <!-- /Red -->
+
+    </div>
+
+    
+       
+      <!-- Footer -->
+      <div class="container-fluid fixed-bottom small footer " style=" margin: 1px; padding: 10px; border-top: rgb(117, 117, 117) 2px solid;">
+        <!-- Linija -->
+      
+        <div class="row text-center">
+            <div class="col-lg-4 col-sm-4 text-">
+                Milan Cvoric
+            </div>
+            <div class="col-lg-4 col-sm-4 text">
+                Web oglasi za posao - 2021 <sup>&copy</sup> 
+            </div>
+            
+            <div class="col-lg-4 col-sm-4">
+                <a><i class="fab fa-instagram ml-3" style="color:blueviolet"></i></a>
+                <a><i class="fab fa-facebook ml-3"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+
+   
+
+
+
+</body>
+
+
+    
